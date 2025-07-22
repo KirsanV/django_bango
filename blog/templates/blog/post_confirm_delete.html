@@ -1,0 +1,13 @@
+{% extends 'blog/base_one.html' %}
+
+{% block title %}Подтверждение удаления{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Подтверждение удаления</h2>
+<p>Вы уверены, что хотите удалить этот пост?</p>
+<form method="post" class="d-inline">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger me-2">Удалить</button>
+    <a href="{% url 'post_detail' object.pk %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}
