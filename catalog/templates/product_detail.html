@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Детали товара{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="mb-4">{{ product.name }}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded">
+      {% else %}
+        <img src="/static/no-image.png" alt="Нет изображения" class="img-fluid rounded">
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      <h3>Описание</h3>
+      <p>{{ product.description }}</p>
+
+      <h4>Категория</h4>
+      <p>{{ product.category.name }}</p>
+
+      <h4>Цена</h4>
+      <p>{{ product.price }} ₽</p>
+
+      <h4>Дата создания</h4>
+      <p>{{ product.created_at|date:"d.m.Y H:i" }}</p>
+
+      <h4>Дата последнего изменения</h4>
+      <p>{{ product.updated_at|date:"d.m.Y H:i" }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
