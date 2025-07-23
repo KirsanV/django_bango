@@ -26,7 +26,7 @@
           <h1 class='card-title pricing-card-title text-center mb-3'>{{ product.price }} ₽</h1>
           <p>{{ product.description|slice:":100" }}{% if product.description|length > 100 %}...{% endif %}</p>
           <div class='mt-auto'>
-            <a href="{% url 'product_detail' product.id %}" class='btn btn-outline-primary w-100'>Подробнее</a>
+            <a href="{% url 'catalog:product_detail' product.id %}" class='btn btn-outline-primary w-100'>Подробнее</a>
           </div>
         </div>
       </div>
