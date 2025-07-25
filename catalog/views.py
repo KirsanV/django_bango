@@ -1,36 +1,9 @@
-# from django.shortcuts import render, get_object_or_404
-# from .models import Product
-#
-#
-# def home(request):
-#     products = Product.objects.all()
-#     return render(request, 'home.html', {'products': products})
-#
-#
-# def contacts(request):
-#     success_message = ''
-#     if request.method == 'POST':
-#         name = request.POST.get('name')
-#         phone = request.POST.get('phone')
-#         message = request.POST.get('message')
-#
-#         print("Пользователь ввел:")
-#         print(f"Имя: {name}")
-#         print(f"Номер телефона: {phone}")
-#         print(f"Сообщение: {message}")
-#         success_message = 'Ваше сообщение успешно отправлено! Спасибо.'
-#
-#     return render(request, 'contacts.html', {'success_message': success_message})
-#
-#
-# def product_detail(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     return render(request, 'product_detail.html', {'product': product})
-
-
 from django.views import View, generic
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from .models import Product
+
+from .forms import ProductForm
+from django.urls import reverse_lazy
 
 
 class HomeView(generic.ListView):
@@ -64,3 +37,28 @@ class ProductDetailView(generic.DetailView):
     template_name = 'product_detail.html'
     context_object_name = 'product'
 
+
+class ProductCreateView(generic.CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_form.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class ProductUpdateView(generic.UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_form.html'
+    success_url = reverse_lazy('catalog:home')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class ProductDeleteView(generic.DeleteView):
+    model = Product
+    template_name = 'product_confirm_delete.html'
+    success_url = '/'
