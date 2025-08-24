@@ -11,6 +11,12 @@
           <a class="nav-link btn btn-outline-primary me-2" href="/">Каталог</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link btn btn-outline-primary me-2" href="{% url 'catalog:product_add' %}">Добавить продукт</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-primary me-2" href="{% url 'blog:blog_list' %}">Блог</a>
+        </li>
+        <li class="nav-item">
           {% if request.path == '/contacts/' %}
             <a class='nav-link btn btn-primary text-white' href="/contacts/">Контакты</a>
           {% else %}
