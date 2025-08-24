@@ -23,6 +23,15 @@
             <a class='nav-link btn btn-outline-primary' href="/contacts/">Контакты</a>
           {% endif %}
         </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link btn btn-outline-primary me-2" href="{% url 'users:logout' %}">Выйти из профиля</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link btn btn-outline-primary me-2" href="{% url 'users:register' %}">Зарегистрироваться</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>

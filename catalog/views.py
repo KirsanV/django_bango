@@ -1,6 +1,7 @@
 from django.views import View, generic
 from django.shortcuts import render
 from .models import Product
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import ProductForm
 from django.urls import reverse_lazy
@@ -38,17 +39,16 @@ class ProductDetailView(generic.DetailView):
     context_object_name = 'product'
 
 
-class ProductCreateView(generic.CreateView):
+class ProductCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'product_form.html'
-    success_url = '/'
+    success_url = reverse_lazy('catalog:home')
 
     def form_valid(self, form):
         return super().form_valid(form)
 
-
-class ProductUpdateView(generic.UpdateView):
+class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product_form.html'
@@ -58,7 +58,7 @@ class ProductUpdateView(generic.UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(generic.DeleteView):
+class ProductDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Product
     template_name = 'product_confirm_delete.html'
-    success_url = '/'
+    success_url = reverse_lazy('catalog:home')
