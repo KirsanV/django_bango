@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import UserRegistrationForm, UserAuthenticationForm
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def register_view(request):
@@ -19,8 +22,9 @@ def register_view(request):
             from_email = settings.DEFAULT_FROM_EMAIL
             recipient_list = [user.email]
             try:
-                send_mail(subject, message, from_email, recipient_list, fail_silently=True)
-            except Exception:
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            except Exception as e:
+                logger.exception("Ошибка отправки приветственного письма: %s", e)
                 pass
 
             login(request, user)
@@ -28,6 +32,7 @@ def register_view(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'users/register.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
