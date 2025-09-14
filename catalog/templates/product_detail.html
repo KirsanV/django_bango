@@ -28,10 +28,13 @@
 
       <h4>Дата последнего изменения</h4>
       <p>{{ product.updated_at|date:"d.m.Y H:i" }}</p>
+
+      {% if product.can_edit %}
       <div class="mt-4 d-flex gap-2">
         <a href="{% url 'catalog:product_edit' product.pk %}" class="btn btn-warning">Редактировать</a>
         <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
       </div>
+      {% endif %}
     </div>
   </div>
 </div>

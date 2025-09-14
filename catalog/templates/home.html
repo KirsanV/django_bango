@@ -28,6 +28,12 @@
           <div class='mt-auto'>
             <a href="{% url 'catalog:product_detail' product.id %}" class='btn btn-outline-primary w-100'>Подробнее</a>
           </div>
+
+          {% if product.can_edit %}
+          <div class="mt-2">
+            <a href="{% url 'catalog:product_edit' product.id %}" class="btn btn-warning w-100">Редактировать</a>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
