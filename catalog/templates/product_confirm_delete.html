@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block title %}Удалить "{{ product.name }}"{% endblock %}
@@ -6,6 +7,7 @@
 <div class="container my-4">
   <h2 class="mb-4">Удалить продукт</h2>
   <p>Вы уверены, что хотите удалить этот продукт?</p>
+
   <div class="card mb-4">
     <div class="row g-0">
       <div class="col-md-4">
@@ -25,10 +27,14 @@
       </div>
     </div>
   </div>
+
+  {% if product.can_edit %}
   <form method="post" style="display:inline;">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Удалить</button>
-    <a href="{% url 'catalog:home' %}" class="btn btn-secondary ms-2">Отмена</a>
   </form>
+  {% endif %}
+
+  <a href="{% url 'catalog:home' %}" class="btn btn-secondary ms-2">Отмена</a>
 </div>
 {% endblock %}
