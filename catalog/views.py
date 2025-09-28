@@ -1,11 +1,15 @@
 from django.views import View, generic
 from django.shortcuts import render
-from .models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from .forms import ProductForm
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
+from catalog.services import get_product_from_cache
+from django.views.generic import ListView
+from .services import get_products_by_category
+from .models import Product, Category
+from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
@@ -42,6 +46,8 @@ class HomeView(CanEditMixin, generic.ListView):
     model = Product
     template_name = 'home.html'
     context_object_name = 'products'
+    def get_queryset(self):
+        return get_product_from_cache()
 
 
 class ContactsView(View):
@@ -107,3 +113,20 @@ class ProductDeleteView(LoginRequiredMixin, CanEditMixin, generic.DeleteView):
         if not self.user_can_edit(request.user, obj):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
+
+
+class ProductsByCategoryView(ListView):
+    model = Product
+    template_name = 'products_by_category.html'
+    context_object_name = 'products'
+    paginate_by = 20
+
+    def get_queryset(self):
+        category_name = self.kwargs.get('category_name')
+        get_object_or_404(Category, name=category_name)
+        return get_products_by_category(category_name)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_name'] = self.kwargs.get('category_name')
+        return context
